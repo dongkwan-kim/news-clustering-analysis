@@ -67,19 +67,23 @@ function draw_network(e_th){
         nodes: nodes,
         edges: edges
     };
-var options = {
-  "edges": {
-    "smooth": {
-      "forceDirection": "none"
+    var options = {
+        interaction: {
+            navigationButtons: true,
+            keyboard: true
+        }
+        "edges": {
+            "smooth": {
+            "forceDirection": "none"
+            }
+        },
+        "physics": {
+            "barnesHut": {
+                "gravitationalConstant": -16750
+            },
+        "minVelocity": 0.75
+        }
     }
-  },
-  "physics": {
-    "barnesHut": {
-      "gravitationalConstant": -16750
-    },
-    "minVelocity": 0.75
-  }
-}
 
     var network = new vis.Network(container, data, options);
 }
