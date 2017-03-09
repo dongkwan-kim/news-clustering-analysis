@@ -28,10 +28,14 @@ def create_visjs_network_from_raw(network, partition):
             node_x["id"] = x
             node_x["label"] = px
             node_x["color"] = nc_dict[mp.get_partition_num(partition, px)]
+            node_x["group"] = mp.get_partition_num(partition, px)
+            node_x["shape"] = "dot"
             node_y = {}
             node_y["id"] = y
             node_y["label"] = py
             node_y["color"] = nc_dict[mp.get_partition_num(partition, py)]
+            node_y["group"] = mp.get_partition_num(partition, py)
+            node_y["shape"] = "dot"
             if node_x not in node_list:
                 node_list.append(node_x)
             if node_y not in node_list:
