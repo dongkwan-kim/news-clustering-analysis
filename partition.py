@@ -27,12 +27,22 @@ def get_graph(fi):
         g.add_edge(x, y, weight=e[(x, y)])
     return g
 
-if __name__ == "__main__":
-    fi = "cooc_o.csv"
+def get_best_partition(fi):
     g = get_graph(fi)
     part = community.best_partition(g)
 
     d = defaultdict(list)
     for (v, i) in part.items():
         d[i].append(v)
+    return d
+
+def get_partition_num(part, emt):
+    for i, l in part.items():
+        if emt in l:
+            return i
+    return -1
+
+if __name__ == "__main__":
+    fi = "cooc_o.csv"
+    d = get_best_partition(fi)
     pprint.pprint(d)
