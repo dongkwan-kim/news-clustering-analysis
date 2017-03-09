@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Induced</title>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+</head>
+
+<body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+#mynetwork {
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid lightgray;
+}
+</style>
+
+<div class="container">
+    <div class="row center">
+        <div class="col s12">
+            <div id="mynetwork" class="z-depth-1"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+          <input placeholder="default=0.05" id="threshold" type="number" class="validate">
+          <label for="threshold">threshold</label>
+        </div>
+        <a id="go-btn" class="col s6 waves-effect waves-light btn">go</a>
+    </div>
+</div>
+
+<script>
+
+var raw_nodes = [{'label': '0', 'id': '0', 'shape': 'dot'}, {'label': '1', 'id': '1', 'shape': 'dot'}, {'label': '12', 'id': '12', 'shape': 'dot'}, {'label': '3', 'id': '3', 'shape': 'dot'}, {'label': '7', 'id': '7', 'shape': 'dot'}, {'label': '2', 'id': '2', 'shape': 'dot'}, {'label': '11', 'id': '11', 'shape': 'dot'}, {'label': '4', 'id': '4', 'shape': 'dot'}, {'label': '6', 'id': '6', 'shape': 'dot'}, {'label': '15', 'id': '15', 'shape': 'dot'}, {'label': '5', 'id': '5', 'shape': 'dot'}, {'label': '16', 'id': '16', 'shape': 'dot'}, {'label': '20', 'id': '20', 'shape': 'dot'}, {'label': '14', 'id': '14', 'shape': 'dot'}, {'label': '18', 'id': '18', 'shape': 'dot'}, {'label': '9', 'id': '9', 'shape': 'dot'}, {'label': '19', 'id': '19', 'shape': 'dot'}, {'label': '10', 'id': '10', 'shape': 'dot'}, {'label': '8', 'id': '8', 'shape': 'dot'}]
+
+
+var raw_edges = [{'color': {'color': 'grey', 'highlight': 'green'}, 'value': 2.56540016990068, 'to': '11', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 2.4857736994261295, 'to': '3', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 2.2436847814451064, 'to': '4', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 2.0087822797825297, 'to': '1', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 1.6765457986597503, 'to': '20', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 1.3702325728197897, 'to': '7', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 1.2614675566124698, 'to': '12', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 1.2257522979623998, 'to': '2', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 1.2063751361343003, 'to': '18', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 1.16046904753395, 'to': '6', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 1.0122242469987, 'to': '5', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.8336314709005601, 'to': '15', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.6915697987762, 'to': '7', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.6603350815776, 'to': '15', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.56045318798365, 'to': '12', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.51117763842547, 'to': '9', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.5050109662886301, 'to': '3', 'from': '2'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.5013748958901301, 'to': '11', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.5000772052570001, 'to': '7', 'from': '6'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.4956982352875, 'to': '4', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.4871166571836001, 'to': '7', 'from': '4'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.43441706494550003, 'to': '14', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.39378630556379995, 'to': '4', 'from': '3'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.387129916052, 'to': '7', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.37408861584229997, 'to': '6', 'from': '2'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.35411084785, 'to': '2', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.3538294643855, 'to': '16', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.3176456163303, 'to': '3', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.301295689468, 'to': '7', 'from': '20'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2986940709308, 'to': '5', 'from': '4'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2879163783273, 'to': '2', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.28656175039520004, 'to': '16', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.27858676073579997, 'to': '20', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.26936253972040003, 'to': '6', 'from': '18'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.26878593699825, 'to': '6', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2666811932343, 'to': '4', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.26426091445989996, 'to': '12', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2595169788502, 'to': '6', 'from': '3'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.25761773190230003, 'to': '20', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.24297815172140003, 'to': '2', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.231460288342, 'to': '4', 'from': '16'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.23112401771820001, 'to': '3', 'from': '20'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2280017396075, 'to': '20', 'from': '2'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2279034907009, 'to': '20', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2251762119096, 'to': '2', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2239911684989, 'to': '8', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.223975259581, 'to': '4', 'from': '19'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.2079327641036, 'to': '7', 'from': '2'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.20602338723240002, 'to': '7', 'from': '3'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.202383586509, 'to': '6', 'from': '16'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.199537404444, 'to': '9', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1771610051966, 'to': '10', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.173810457099, 'to': '19', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.16578047269270002, 'to': '3', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1639605199344, 'to': '6', 'from': '4'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.160864865963, 'to': '4', 'from': '20'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.155627320857, 'to': '14', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.14737425796769, 'to': '4', 'from': '2'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1445872676473, 'to': '3', 'from': '16'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1432915396616, 'to': '5', 'from': '3'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1412117516014, 'to': '5', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1398118572415, 'to': '15', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.13733811776850002, 'to': '6', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1370238014546, 'to': '3', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1364493437439, 'to': '7', 'from': '14'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.135419315042, 'to': '7', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1351705506299, 'to': '6', 'from': '20'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1341934256964, 'to': '15', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1207461944521, 'to': '6', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1071796243865, 'to': '14', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1044385435718, 'to': '5', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.1038016805817, 'to': '9', 'from': '6'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.101357017843, 'to': '9', 'from': '20'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.09873355592009, 'to': '4', 'from': '14'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.091666668142, 'to': '8', 'from': '4'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0868559524074, 'to': '3', 'from': '14'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0853119443238, 'to': '5', 'from': '2'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.084991744735, 'to': '9', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0844169535508, 'to': '9', 'from': '2'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0808763447529, 'to': '3', 'from': '18'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0807804651378, 'to': '7', 'from': '18'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0791349184128, 'to': '18', 'from': '11'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0743282371444, 'to': '20', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0712889305065, 'to': '19', 'from': '0'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0710845495607, 'to': '7', 'from': '15'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0694694070789, 'to': '18', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0599788616681, 'to': '19', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0589570080327, 'to': '20', 'from': '18'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0572565175085, 'to': '20', 'from': '16'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0558969087351, 'to': '2', 'from': '18'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.055218387209, 'to': '4', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0494564073127, 'to': '2', 'from': '19'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.047098022189, 'to': '18', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0413174073221, 'to': '6', 'from': '14'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0366518128303, 'to': '5', 'from': '14'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0361936638999, 'to': '4', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0350970933559, 'to': '14', 'from': '1'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.0198777856109, 'to': '3', 'from': '12'}, {'color': {'color': 'grey', 'highlight': 'green'}, 'value': 0.00735533450951, 'to': '15', 'from': '14'}]
+
+
+
+
+
+
+
+
+
+var container = document.getElementById('mynetwork');
+
+
+function draw_network(e_th){
+    
+    edges = [];
+    for(var idx = 0; idx < raw_edges.length; idx++){
+        if(raw_edges[idx]["value"] > e_th){
+            edges.push(raw_edges[idx])
+        }
+    }
+    var nodes = new vis.DataSet(raw_nodes);
+    var edges = new vis.DataSet(edges);
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {
+        interaction: {
+            navigationButtons: true,
+            keyboard: true
+        },
+        "edges": {
+            "smooth": {
+            "forceDirection": "none"
+            }
+        },
+        "physics": {
+
+            "barnesHut": {
+                "gravitationalConstant": -16750
+            },
+        "minVelocity": 0.75
+        }
+    }
+
+    var network = new vis.Network(container, data, options);
+}
+$(document).ready(function(){
+    $("#mynetwork").height($(window).height() * 0.8)
+    var e_th = 0.05
+    draw_network(e_th);
+});
+
+$("#go-btn").click(function(){
+    draw_network($("#threshold").val())
+});
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
+</body>
