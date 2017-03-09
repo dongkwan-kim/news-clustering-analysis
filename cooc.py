@@ -45,7 +45,7 @@ def get_evg(cooc):
 def export_csv(cooc, s=0.0):
     o = open("cooc_o.csv", "w")
     for ((x, y), d) in cooc.items():
-        if d >= s:
+        if d >= s and x != y:
             o.write(",".join([x, y, str(d), "\n"]))
     o.close()
 
