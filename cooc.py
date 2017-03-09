@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 import numpy as np
 import scipy.spatial as sp_sp
 from collections import defaultdict
@@ -34,13 +36,20 @@ def get_cooc(mat, df=get_cosine):
             edge[ts(nx, ny)] = df(vx, vy)
     return edge
 
-def export_csv(cooc):
+def get_evg(cooc):
+    s = 0
+    for ((x, y), d) in cooc.items():
+        s += d
+    return s / len(cooc)
+
+def export_csv(cooc, s=0.0):
     o = open("cooc_o.csv", "w")
     for ((x, y), d) in cooc.items():
-        o.write(",".join([x, y, str(d), "\n"]))
+        if d >= s:
+            o.write(",".join([x, y, str(d), "\n"]))
     o.close()
 
 if __name__ == "__main__":
     m = get_mat()
     cooc = get_cooc(m)
-    export_csv(cooc)
+    export_csv(cooc, get_evg(cooc))
