@@ -52,4 +52,4 @@ def export_csv(cooc, s=0.0):
 if __name__ == "__main__":
     m = get_mat()
     cooc = get_cooc(m)
-    export_csv(cooc, get_evg(cooc))
+    export_csv(cooc)

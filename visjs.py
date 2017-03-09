@@ -64,5 +64,7 @@ if __name__ == "__main__":
     n = create_network(fi)
     p = mp.get_best_partition(fi)
     visjs = create_visjs_network_from_raw(n, p)
+    import pprint
+    pprint.pprint(p)
     print(visjs[0])
     print(visjs[1])
